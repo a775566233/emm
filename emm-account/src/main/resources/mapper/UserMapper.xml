@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.emm.mapper.UserMapper">
+    <resultMap id="userResultMap" type="com.emm.entity.User">
+        <id property="userId" column="userId" jdbcType="BIGINT"/>
+        <result property="userName" column="userName" jdbcType="VARCHAR"/>
+        <result property="userPassword" column="userPassword" jdbcType="VARCHAR"/>
+        <result property="userEmail" column="userEmail" jdbcType="VARCHAR"/>
+        <result property="userArea" column="userArea" jdbcType="VARCHAR"/>
+        <result property="userPhone" column="userPhone" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="userDuties" column="userDuties" jdbcType="VARCHAR"/>
+        <result property="userUUID" column="userUUID"/>
+    </resultMap>
+
+    <select id="findUser" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties FROM emm.emm_user LIMIT #{offset}, #{limit};
+    </select>
+
+    <select id="findUserById" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties FROM emm.emm_user WHERE userId = #{userId};
+    </select>
+
+    <select id="findUserByName" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties FROM emm.emm_user WHERE userName = #{userName}
+    </select>
+
+    <select id="findUserByEmail" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties FROM emm.emm_user WHERE userEmail = #{userEmail}
+    </select>
+
+    <select id="findUserByArea" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE userArea = #{userArea}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="findUserByPhone" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE userArea = #{userArea} AND userPhone = #{userPhone}
+    </select>
+
+    <select id="findUserByLoginName" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE userName = #{userName} AND userPassword = #{userPassword}
+    </select>
+
+    <select id="findUserByLoginEmail" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE userEmail = #{userEmail} AND userPassword = #{userPassword}
+    </select>
+
+    <select id="findUserByLoginPhone" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE userArea = #{userArea} AND userPhone = #{userPhone} AND userPassword = #{userPassword}
+    </select>
+
+    <select id="findUserByStatus" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE status = #{status}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="findUserByUserDuties" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE userDuties = #{userDuties}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="findUserByUserUUID" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE userUUID = #{userUUID}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="searchUserByUserName" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE userName LIKE #{userName}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="searchUserByUserPhone" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE userPhone LIKE #{userPhone}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="searchUserByUserEmail" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE emm_user.userEmail LIKE #{userEmail}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="searchUserByUserArea" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE emm_user.userArea LIKE #{userArea}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="searchUserByRegisterStamp" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE emm_user.registerStamp LIKE #{registerStamp}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="searchUserByRegisterPrefixStamp" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE emm_user.registerStamp LIKE CONCAT(#{prefixStamp}, '%')
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="searchUserByIntervalStamp" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE emm_user.registerStamp BETWEEN #{startStamp} AND #{endStamp}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <insert id="addUser">
+        INSERT INTO emm.emm_user(userId, userName, userPassword, userEmail, userArea, registerStamp, userDuties, status, userUUID)
+        VALUES (#{userId}, #{userName}, #{userPassword}, #{userEmail}, #{userArea}, #{registerStamp}, #{userDuties}, #{status}, #{userUUID})
+    </insert>
+
+    <update id="updateUserById">
+        UPDATE emm.emm_user
+        <set>
+            <if test="userName != null">
+                userName = #{userName}
+            </if>
+            <if test="userPassword != null">
+                userPassword = #{userPassword}
+            </if>
+            <if test="userEmail != null">
+                userEmail = #{userEmail}
+            </if>
+            <if test="userArea != null">
+                userArea = #{userArea}
+            </if>
+            <if test="userPhone != null">
+                userPhone = #{userPhone}
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+            <if test="userDuties != null">
+                userDuties = #{userDuties}
+            </if>
+        </set>
+        WHERE userId = #{userId}
+    </update>
+
+    <update id="updateUserByName">
+        UPDATE emm.emm_user
+        <set>
+            <if test="userPassword != null">
+                userPassword = #{userPassword}
+            </if>
+            <if test="userEmail != null">
+                userEmail = #{userEmail}
+            </if>
+            <if test="userArea != null">
+                userArea = #{userArea}
+            </if>
+            <if test="userPhone != null">
+                userPhone = #{userPhone}
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+            <if test="userDuties != null">
+                userDuties = #{userDuties}
+            </if>
+        </set>
+        WHERE userName = #{userName}
+    </update>
+
+    <update id="updateUserByEmail">
+        UPDATE emm.emm_user
+        <set>
+            <if test="userPassword != null">
+                userPassword = #{userPassword}
+            </if>
+            <if test="userName != null">
+                userName = #{userName}
+            </if>
+            <if test="userArea != null">
+                userArea = #{userArea}
+            </if>
+            <if test="userPhone != null">
+                userPhone = #{userPhone}
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+            <if test="userDuties != null">
+                userDuties = #{userDuties}
+            </if>
+        </set>
+        WHERE userEmail = #{userEmail}
+    </update>
+
+    <update id="updateUserByPhone">
+        UPDATE emm.emm_user
+        <set>
+            <if test="userPassword != null">
+                userPassword = #{userPassword}
+            </if>
+            <if test="userName != null">
+                userName = #{userName}
+            </if>
+            <if test="userArea != null">
+                userArea = #{userArea}
+            </if>
+            <if test="userEmail != null">
+                userEmail = #{userEmail}
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+            <if test="userDuties != null">
+                userDuties = #{userDuties}
+            </if>
+        </set>
+        WHERE userPhone = #{userPhone}
+    </update>
+
+    <update id="updateUserByUUID">
+        UPDATE emm.emm_user
+        <set>
+            <if test="userName != null">
+                userName = #{userName}
+            </if>
+            <if test="userPassword != null">
+                userPassword = #{userPassword}
+            </if>
+            <if test="userEmail != null">
+                userEmail = #{userEmail}
+            </if>
+            <if test="userArea != null">
+                userArea = #{userArea}
+            </if>
+            <if test="userPhone != null">
+                userPhone = #{userPhone}
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+            <if test="userDuties != null">
+                userDuties = #{userDuties}
+            </if>
+        </set>
+        WHERE userUUID = #{userUUID}
+    </update>
+
+    <update id="deleteUserById">
+        DELETE FROM emm.emm_user WHERE userId = ${userId}
+    </update>
+
+    <update id="deleteUserByName">
+        DELETE FROM emm.emm_user WHERE userName = ${userName}
+    </update>
+
+    <update id="deleteUserByEmail">
+        DELETE FROM emm.emm_user WHERE userEmail = ${userEmail}
+    </update>
+
+    <update id="deleteUserByPhone">
+        DELETE FROM emm.emm_user WHERE userPhone = ${userPhone}
+    </update>
+
+    <update id="deleteUserByUserUUID">
+        DELETE FROM emm.emm_user WHERE userUUID = ${userUUID}
+    </update>
+</mapper>
