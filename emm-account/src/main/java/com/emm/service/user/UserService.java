@@ -2,6 +2,8 @@ package com.emm.service.user;
 
 import com.emm.entity.User;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public interface UserService {
@@ -27,7 +29,7 @@ public interface UserService {
     List<User> searchUserByRegisterPrefixStamp(long registerPrefixStamp, long offset, long limit);
     List<User> searchUserByIntervalStamp(long startStamp, long endStamp, long offset, long limit);
 
-    long addUser(User user);
+    long addUser(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException;
     long updateUser(User user);
     long deleteUser(User user);
 }

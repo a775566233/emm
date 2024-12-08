@@ -11,8 +11,9 @@ features:
 
 web:
   header:
-    access-token: Authorization-Access-token
-    refresh-token: Authorization-Refresh-token
+    access-token: Authorization-Access
+    refresh-token: Authorization-Refresh
+    email-verification-token: Authorization-Email-Verification
 
 settings:
   analytics: true
@@ -50,6 +51,20 @@ spring:
       maximum-pool-size: 15
       connection-test-query: SELECT 1
       auto-commit: true
+  mail:
+    # noinspection SpellCheckingInspection
+    host: smtp.exmail.qq.com
+    port: 465
+    username:
+    # noinspection SpellCheckingInspection
+    password:
+    test-connection: true
+    protocol: smtps
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true #启用SMTP服务器的身份验证，这是为了确保只有合法用户可以发送邮件。
+      mail.smtp.starttls.enable: true #启用TLS加密，这是为了确保邮件传输的安全性。
+      mail.smtp.starttls.required: true #要求使用TLS加密，如果连接不是通过TLS加密传输，则连接将失败。
 
 mybatis:
   configuration:  # setting配置
@@ -59,6 +74,9 @@ mybatis:
     aggressive-lazy-loading: true
 
   mapper-locations: classpath:/mapper/*.xml # mapper xml位置
+  type-handlers-package: com.emm.mapper.type
+
+
 
 jwt:
   # noinspection SpellCheckingInspection
@@ -67,4 +85,15 @@ jwt:
   refresh-token-expire: 604800
   algorithm:  HMAC256
   allow-update-refresh-tokens: false
+
+verification-code:
+  email:
+    length: 6
+    expire: 300
+    prefix-content: 验证码为：
+    suffix-content: ，验证码5分钟有效
+    url:  http://127.0.0.1:8088
+
+schedule:
+  clear-email-verification-code-map-period: 600
 

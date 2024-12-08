@@ -8,12 +8,24 @@ public class UUIDTools {
         return getUUIDBytes(UUID.randomUUID());
     }
 
+    public static String getUUIDString() {
+        return getUUIDString(UUID.randomUUID());
+    }
+
     public static UUID getUUID(byte[] bytes) {
         if (bytes.length != 16) {
             throw new IllegalArgumentException("Array must be 16 bytes long");
         }
         ByteBuffer buffer = ByteBuffer.wrap(bytes);
         return new UUID(buffer.getLong(), buffer.getLong());
+    }
+
+    public static String getUUIDString(byte[] bytes) {
+        return getUUIDString(getUUID(bytes));
+    }
+
+    public static String getUUIDString(UUID uuid) {
+        return uuid.toString();
     }
 
     public static byte[] getUUIDBytes(UUID uuid) {

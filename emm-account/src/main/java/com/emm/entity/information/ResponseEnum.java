@@ -7,6 +7,7 @@ public enum ResponseEnum {
     REQUEST_ILLEGAL("400","request illegal"),
     REQUEST_NULL("400","request null"),
     USER_NOT_FOUND("404","user not found"),
+    ADD_USER_ILLEGAL("400","add user illegal"),
     NOT_FOUND("404","not found"),
     ACCESS_TOKEN_EXPIRED("401","access_token expired"),
     ACCESS_TOKEN_INVALID("401","access_token invalid"),
@@ -19,6 +20,8 @@ public enum ResponseEnum {
     REFRESH_TOKEN_ALGORITHM_MISMATCH("401","refresh_token algorithm mismatch"),
     REFRESH_TOKEN_SIGNATURE_VERIFICATION("401","refresh_token signature verification exception"),
     REFRESH_TOKEN_UPDATE_NOT_ALLOWED("401","refresh_token update not allowed"),
+    VERIFICATION_CODE_EXPIRED("401","verification code expired"),
+    VERIFICATION_CODE_INVALID("401","verification code invalid"),
     ;
     private String code;
     private String message;

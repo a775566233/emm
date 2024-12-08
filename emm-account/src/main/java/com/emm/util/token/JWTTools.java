@@ -37,7 +37,7 @@ public class JWTTools {
             return JWT.create()
                     .withIssuer("auth0")
                     .withClaim("UserName", user.getUserName())
-                    .withClaim("UserUUID", (UUIDTools.getUUID(user.getUserUUID())).toString())
+                    .withClaim("UserUUID", user.getUserUUID())
                     .withExpiresAt(expireDate)
                     .sign(getAlgorithm());
         } catch (Exception e) {
@@ -53,6 +53,10 @@ public class JWTTools {
         return createJWT(user, appConfig.getREFRESH_TOKEN_EXPIRE());
     }
 
+    public static String createVerificationCodeJWT(User user) {
+        return createJWT(user, appConfig.getVerificationCodeEmailExpire());
+    }
+
     public static User parseJWT(@NonNull String jwt) {
         DecodedJWT verify;
         try {
@@ -62,8 +66,8 @@ public class JWTTools {
         }
         User user = new User();
         String userName = verify.getClaim("UserName").asString();
-        byte[] userUUID = UUIDTools.getUUIDBytes(verify.getClaim("UserUUID").asString());
-        if (userUUID == null || userUUID.length == 0 || userName == null || userName.isEmpty()) {
+        String userUUID = verify.getClaim("UserUUID").asString();
+        if (userUUID == null || userUUID.isEmpty() || userName == null || userName.isEmpty()) {
             throw new RuntimeException("Token is illegal");
         }
         user.setUserUUID(userUUID);

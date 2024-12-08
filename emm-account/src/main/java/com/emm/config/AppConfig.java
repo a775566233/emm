@@ -62,4 +62,24 @@ public class AppConfig {
     private String webHeaderAccessToken;
     @Value("${web.header.refresh-token}")
     private String webHeaderRefreshToken;
+    @Value("${web.header.email-verification-token}")
+    private String webHeaderEmailVerificationToken;
+
+    //计划任务
+    @Value("${schedule.clear-email-verification-code-map-period}")
+    private long clearEmailVerificationCodeMapPeriod;
+
+    //邮箱验证
+    @Value("${verification-code.email.expire}")
+    private long verificationCodeEmailExpire;
+    @Value("${verification-code.email.length}")
+    private int verificationCodeEmailLength;
+    @Value("${verification-code.email.prefix-content}")
+    private String verificationCodeEmailPrefixContent;
+    @Value("${verification-code.email.suffix-content}")
+    private String verificationCodeEmailSuffixContent;
+    @Value("${verification-code.email.url}")
+    private String verificationCodeEmailUrl;
+    @Value("${spring.mail.username}")
+    private String verificationCodeEmailSender;
 }

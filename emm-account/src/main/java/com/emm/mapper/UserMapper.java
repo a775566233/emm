@@ -38,5 +38,5 @@ public interface UserMapper {
     long deleteUserByName(@Param("userName")String userName);
     long deleteUserByEmail(@Param("userEmail")String userEmail);
     long deleteUserByPhone(@Param("status")String usersArea, @Param("userPhone")String userPhone);
-    long deleteUserByUserUUID(@Param("userUUID")byte[] userUUID);
+    long deleteUserByUserUUID(@Param("userUUID")String userUUID);
 }

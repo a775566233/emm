@@ -42,13 +42,18 @@ public class JwtController implements HandlerInterceptor {
                 "/user/login",
                 "/user/register",
                 "/index.html",
-                "/error"
+                "/error",
+                "/email/register/{VerificationCodeToken}/{code}",
+                "/email/code"
         };
         //判断本次是否需要处理
-        if (urlCheck(urls, requestUri)) {
+        if (urlCheck(requestUri, urls)) {
             return true;
         }
-
+        log.info(
+                "check : {}",
+                urlCheck("/email/register/{VerificationCodeToken}/{code}", requestUri)
+        );
         //获取token信息
         String accessToken = request.getHeader(appConfig.getWebHeaderAccessToken());
         String refreshToken = request.getHeader(appConfig.getWebHeaderRefreshToken());
@@ -163,10 +168,9 @@ public class JwtController implements HandlerInterceptor {
      * @param requestUri 请求路径
      * @return
      */
-    public boolean urlCheck(String[] urls, String requestUri) {
+    public boolean urlCheck(String requestUri, String[] urls) {
         for (String url : urls) {
-            boolean match = PATH_MATCHER.match(url, requestUri);
-            if (match) {
+            if (urlCheck(url, requestUri)) {
                 return true;
             }
         }

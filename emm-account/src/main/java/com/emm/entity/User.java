@@ -16,11 +16,11 @@ public class User {
     private String userPhone;
     private String userDuties;
     private int status;
-    private byte[] userUUID;
+    private String userUUID;
     private long registerStamp;
 
     public User() {}
-    public User(String userName, byte[] userUUID) {
+    public User(String userName, String userUUID) {
         this.userName = userName;
         this.userUUID = userUUID;
     }

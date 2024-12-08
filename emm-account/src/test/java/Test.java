@@ -9,6 +9,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.UUID;
 
+import static com.emm.util.generate.RandomTools.randomInt;
+
 public class Test {
 
     public static byte[] getUUIDBytes() {
@@ -32,7 +34,7 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        byte[] uuidBytes = getUUIDBytes();
+        /*byte[] uuidBytes = getUUIDBytes();
         System.out.println(Arrays.toString(uuidBytes));
         System.out.println(getUUID(uuidBytes));
         System.out.println(System.currentTimeMillis());
@@ -48,7 +50,16 @@ public class Test {
             System.out.println(encrypt(result, "SHA-256", "utf-8"));
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
+        }*/
+        System.out.println(randomIntString(0, 9, 6));
+    }
+
+    public static String randomIntString(int min, int max, int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            sb.append(randomInt(min, max));
         }
+        return new String(sb);
     }
 
     public static String encrypt(String content, String algorithm, String charsets) throws NoSuchAlgorithmException, UnsupportedEncodingException {

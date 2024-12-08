@@ -12,7 +12,7 @@
         <result property="userPhone" column="userPhone" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="userDuties" column="userDuties" jdbcType="VARCHAR"/>
-        <result property="userUUID" column="userUUID"/>
+        <result property="userUUID" column="userUUID" typeHandler="com.emm.mapper.type.BinaryUUIDToStringHandle" jdbcType="BINARY" javaType="String"/>
     </resultMap>
 
     <select id="findUser" resultMap="userResultMap">

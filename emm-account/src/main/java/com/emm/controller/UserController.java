@@ -84,4 +84,45 @@ public class UserController {
         return responseBody;
     }
 
+    @PostMapping("/register")
+    public Object register(HttpServletResponse response, @RequestBody User user) {
+        log.info("register");
+        StandardResponseBody<User> responseBody;
+        if (user == null) {
+            log.error("register info is null");
+            return StandardResponseBody.customInfo(ResponseEnum.REQUEST_NULL);
+        }
+        if (user.getUserName() == null
+                || user.getUserName().isEmpty()
+                || user.getUserPassword() == null
+                || user.getUserPassword().isEmpty()
+                || user.getUserEmail() == null
+                || user.getUserEmail().isEmpty()
+
+        ) {
+            log.error("register info is empty");
+            return StandardResponseBody.customInfo(ResponseEnum.ADD_USER_ILLEGAL);
+        }
+        if (user.getUserName().length() > 30
+            || user.getUserEmail().length() > 50
+            || user.getUserArea().length() > 5
+            || user.getUserDuties().length() > 20
+        ) {
+            log.error("register info is too long");
+            return StandardResponseBody.customInfo(ResponseEnum.ADD_USER_ILLEGAL);
+        }
+        try {
+            if (userService.addUser(user) > 0) {
+                responseBody  = StandardResponseBody.customInfo(ResponseEnum.SUCCESS, user);
+                log.info("user {} register success", user.getUserName());
+            } else {
+                log.error("register fail");
+                return StandardResponseBody.customInfo(ResponseEnum.SERVER_ERROR);
+            }
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+            log.error(e.getMessage());
+            return StandardResponseBody.customInfo(ResponseEnum.SERVER_ERROR);
+        }
+        return responseBody;
+    }
 }
