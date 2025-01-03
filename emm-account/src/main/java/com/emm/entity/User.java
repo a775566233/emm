@@ -1,14 +1,11 @@
 package com.emm.entity;
 
-import com.emm.util.json.Deserialization;
-import com.emm.util.json.Serialize;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Getter;
 import lombok.Setter;
 @Setter
 @Getter
 public class User {
-    private long userId;
+    private long userId = 0;
     private String userName;
     private String userPassword;
     private String userEmail;
@@ -16,11 +13,18 @@ public class User {
     private String userPhone;
     private String userDuties;
     private int status;
+
     private String userUUID;
     private long registerStamp;
 
     public User() {}
     public User(String userName, String userUUID) {
+        this.userName = userName;
+        this.userUUID = userUUID;
+    }
+
+    public User(long userId, String userName, String userUUID) {
+        this.userId = userId;
         this.userName = userName;
         this.userUUID = userUUID;
     }

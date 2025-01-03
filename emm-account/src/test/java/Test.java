@@ -1,12 +1,12 @@
-import com.emm.config.AppConfig;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.emm.entity.permission.PermissionModel;
+import com.emm.util.file.FileTools;
+import com.emm.util.json.Deserialize;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.UUID;
 
 import static com.emm.util.generate.RandomTools.randomInt;
@@ -51,7 +51,21 @@ public class Test {
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }*/
-        System.out.println(randomIntString(0, 9, 6));
+        //System.out.println(randomIntString(0, 9, 6));
+        String json = "";
+        try {
+            json = FileTools.getFileContent("C:\\Users\\A7755\\Nextcloud\\Project\\emm-community\\emm\\emm-account\\data\\config\\permission.json");
+            System.out.println(json);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        PermissionModel permissionModel;
+        try {
+            permissionModel = Deserialize.toObject(json, PermissionModel.class);
+            System.out.println(permissionModel);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static String randomIntString(int min, int max, int length) {

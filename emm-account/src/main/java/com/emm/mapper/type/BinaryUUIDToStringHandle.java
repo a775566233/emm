@@ -5,11 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
+import org.apache.ibatis.type.MappedTypes;
 
 import java.sql.*;
 
 @Slf4j
 @MappedJdbcTypes(JdbcType.BINARY)
+@MappedTypes({String.class})
 public class BinaryUUIDToStringHandle extends BaseTypeHandler<String> {
 
     @Override

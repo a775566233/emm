@@ -7,9 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public class Deserialization {
+public class Deserialize {
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    public static <T> T toObject(String json, T object) throws JsonParseException, JsonMappingException, IOException {
-        return objectMapper.readValue(json, new TypeReference<>() {});
+    public static <T> T toObject(String json, Class<T> clazz) throws JsonParseException, JsonMappingException, IOException {
+        return objectMapper.readValue(json, clazz);
     }
+
 }

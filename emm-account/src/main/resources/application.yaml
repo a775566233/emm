@@ -55,9 +55,9 @@ spring:
     # noinspection SpellCheckingInspection
     host: smtp.exmail.qq.com
     port: 465
-    username:
+    username: wgx@icest.top
     # noinspection SpellCheckingInspection
-    password:
+    password: wGMRQ9t8UEdMmTab
     test-connection: true
     protocol: smtps
     default-encoding: UTF-8
@@ -65,6 +65,11 @@ spring:
       mail.smtp.auth: true #启用SMTP服务器的身份验证，这是为了确保只有合法用户可以发送邮件。
       mail.smtp.starttls.enable: true #启用TLS加密，这是为了确保邮件传输的安全性。
       mail.smtp.starttls.required: true #要求使用TLS加密，如果连接不是通过TLS加密传输，则连接将失败。
+  data:
+    redis:
+      host: localhost
+      port: 3288
+      password: QB32533
 
 mybatis:
   configuration:  # setting配置
@@ -75,8 +80,6 @@ mybatis:
 
   mapper-locations: classpath:/mapper/*.xml # mapper xml位置
   type-handlers-package: com.emm.mapper.type
-
-
 
 jwt:
   # noinspection SpellCheckingInspection
@@ -96,4 +99,9 @@ verification-code:
 
 schedule:
   clear-email-verification-code-map-period: 600
+
+data:
+  dir:  C:\Users\A7755\Nextcloud\Project\emm-community\emm\emm-account\data
+  config:
+    permission-config:  \config\permission.json
 

@@ -2,11 +2,9 @@ package com.emm.service.user;
 
 import com.emm.entity.User;
 import com.emm.mapper.UserMapper;
-import com.emm.util.encryption.Encipher;
+import com.emm.util.string.Digest;
 import com.emm.util.uuid.UUIDTools;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -125,11 +123,26 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public long addUser(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        user.setStatus(1);
         user.setRegisterStamp(System.currentTimeMillis());
         user.setUserUUID(UUIDTools.getUUIDString());
-        user.setUserPassword(Encipher.encryptUserPassword(user.getUserPassword()));
+        user.setUserPassword(Digest.encryptUserPassword(user.getUserPassword()));
         return userMapper.addUser(user);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public long registerUser(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        user.setStatus(0);
+        user.setUserDuties("User");
+        user.setRegisterStamp(System.currentTimeMillis());
+        user.setUserUUID(UUIDTools.getUUIDString());
+        user.setUserPassword(Digest.encryptUserPassword(user.getUserPassword()));
+        return userMapper.addUser(user);
+    }
+
+    @Override
+    public long updateUserPassword(long id, String password) {
+        return userMapper.updateUserPassword(id, password);
     }
 
     @Override

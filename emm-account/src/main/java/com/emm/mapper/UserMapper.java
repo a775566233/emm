@@ -20,6 +20,8 @@ public interface UserMapper {
     User findUserByLoginEmail(@Param("userEmail")String userEmail, @Param("userPassword")String userPassword);
     User findUserByLoginPhone(@Param("userArea")String userArea, @Param("userPhone")String userPhone, @Param("userPassword")String userPassword);
 
+    User checkUserEmail(@Param("userName")String userName, @Param("userEmail")String userEmail);
+
     List<User> searchUserByUserName(@Param("userName")String userName, @Param("offset")long offset, @Param("limit")long limit);
     List<User> searchUserByUserPhone(@Param("userPhone")String userPhone, @Param("offset")long offset, @Param("limit")long limit);
     List<User> searchUserByUserEmail(@Param("userEmail")String userEmail, @Param("offset")long offset, @Param("limit")long limit);
@@ -28,12 +30,13 @@ public interface UserMapper {
     List<User> searchUserByRegisterPrefixStamp(@Param("prefixStamp")long prefixStamp, @Param("offset")long offset, @Param("limit")long limit);
     List<User> searchUserByIntervalStamp(@Param("startStamp")long startStamp, @Param("endStamp")long endStamp, @Param("offset")long offset, @Param("limit")long limit);
 
-    long addUser(@Param("user")User user);
-    long updateUserById(@Param("user")User user);
-    long updateUserByName(@Param("user")User user);
-    long updateUserByEmail(@Param("user")User user);
-    long updateUserByPhone(@Param("user")User user);
-    long updateUserByUUID(@Param("user")User user);
+    long addUser(User user);
+    long updateUserPassword(@Param("userId") long userId, @Param("password")String password);
+    long updateUserById(User user);
+    long updateUserByName(User user);
+    long updateUserByEmail(User user);
+    long updateUserByPhone(User user);
+    long updateUserByUUID(User user);
     long deleteUserById(@Param("userId")long userId);
     long deleteUserByName(@Param("userName")String userName);
     long deleteUserByEmail(@Param("userEmail")String userEmail);

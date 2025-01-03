@@ -1,4 +1,4 @@
-package com.emm.util.encryption;
+package com.emm.util.string;
 
 import com.emm.config.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +9,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @Component
-public class Encipher {
+public class Digest {
     private static AppConfig appConfig;
     @Autowired
     public void setAppConfig(AppConfig appConfig) {
-        Encipher.appConfig = appConfig;
+        Digest.appConfig = appConfig;
     }
 
     public static String encrypt(String content, String algorithm, String charsets) throws NoSuchAlgorithmException, UnsupportedEncodingException {
