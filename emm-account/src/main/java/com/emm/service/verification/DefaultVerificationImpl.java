@@ -4,6 +4,7 @@ import com.emm.config.AppConfig;
 import com.emm.entity.Email;
 import com.emm.entity.User;
 import com.emm.entity.VerificationCode;
+import com.emm.entity.token.TokenInfo;
 import com.emm.util.generate.RandomTools;
 import com.emm.util.token.JWTTools;
 import lombok.extern.slf4j.Slf4j;
@@ -39,26 +40,26 @@ public class DefaultVerificationImpl implements Verification {
     }
 
     @Override
-    public boolean check(String token, String code) {
+    public TokenInfo<User> check(String token, String code) {
         if (Verification.verificationCodeMap.containsKey(token)) {
             try {
-                JWTTools.tokenVerify(token);
+                TokenInfo<User> userTokenInfo = JWTTools.parseUserJWT(token);
                 if (Verification.verificationCodeMap.get(token).equals(code)) {
                     Verification.verificationCodeMap.remove(token);
                     log.info("token = {}, code = {} is valid", token, code);
-                    return true;
+                    return userTokenInfo;
                 } else {
                     log.error("token = {}, code = {} is expire", token, code);
                     Verification.verificationCodeMap.remove(token);
-                    return false;
+                    return null;
                 }
             } catch (Exception e) {
-                log.error("token = {}, code = {} is invalid", token, code);
-                return false;
+                log.error("token = {}, code = {} is invalid {}", token, code, e.getMessage());
+                return null;
             }
         } else {
             log.error("token = {}, code = {} is not null", token, code);
-            return false;
+            return null;
         }
     }
 
@@ -75,7 +76,7 @@ public class DefaultVerificationImpl implements Verification {
     public SimpleMailMessage addEmail(User user, String url, String receiver, String header, String content) {
         String token;
         try {
-            token = JWTTools.createVerificationCodeJWT(user);
+            token = JWTTools.createUserVerificationCodeJWT(user);
             String code = RandomTools.randomIntString(0, 9, appConfig.getVerificationCodeEmailLength());
             Verification.verificationCodeMap.put(token, code);
             Email email = new Email(

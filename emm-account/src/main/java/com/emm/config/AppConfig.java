@@ -82,4 +82,10 @@ public class AppConfig {
     private String verificationCodeEmailUrl;
     @Value("${spring.mail.username}")
     private String verificationCodeEmailSender;
+
+    //持久数据目录
+    @Value("${data.dir}")
+    private String dataDir;
+    @Value("${data.config.permission-config}")
+    private String dataConfigPermissionConfig;
 }

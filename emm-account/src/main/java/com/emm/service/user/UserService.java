@@ -30,6 +30,8 @@ public interface UserService {
     List<User> searchUserByIntervalStamp(long startStamp, long endStamp, long offset, long limit);
 
     long addUser(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException;
+    long registerUser(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException;
+    long updateUserPassword(long id, String password);
     long updateUser(User user);
     long deleteUser(User user);
 }

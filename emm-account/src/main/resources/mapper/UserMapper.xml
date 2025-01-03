@@ -62,6 +62,12 @@
         WHERE userArea = #{userArea} AND userPhone = #{userPhone} AND userPassword = #{userPassword}
     </select>
 
+    <select id="checkUserEmail" resultMap="userResultMap">
+        SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
+        FROM emm.emm_user
+        WHERE userEmail = #{userName} AND userEmail = #{userEmail}
+    </select>
+
     <select id="findUserByStatus" resultMap="userResultMap">
         SELECT userId, userName, userEmail, userArea, userPhone, status, userUUID, userDuties
         FROM emm.emm_user
@@ -133,9 +139,21 @@
     </select>
 
     <insert id="addUser">
-        INSERT INTO emm.emm_user(userId, userName, userPassword, userEmail, userArea, registerStamp, userDuties, status, userUUID)
-        VALUES (#{userId}, #{userName}, #{userPassword}, #{userEmail}, #{userArea}, #{registerStamp}, #{userDuties}, #{status}, #{userUUID})
+        INSERT INTO emm.emm_user(userName, userPassword, userEmail, userArea, registerStamp, userDuties, status, userUUID)
+        VALUES (#{userName},
+                #{userPassword},
+                #{userEmail},
+                #{userArea},
+                #{registerStamp},
+                #{userDuties},
+                #{status},
+                #{userUUID, typeHandler=com.emm.mapper.type.BinaryUUIDToStringHandle}
+               )
     </insert>
+
+    <update id="updateUserPassword">
+        UPDATE emm.emm_user SET userPassword = #{password} WHERE userId = #{userId}
+    </update>
 
     <update id="updateUserById">
         UPDATE emm.emm_user
