@@ -55,9 +55,9 @@ spring:
     # noinspection SpellCheckingInspection
     host: smtp.exmail.qq.com
     port: 465
-    username: wgx@icest.top
+    username: 
     # noinspection SpellCheckingInspection
-    password: wGMRQ9t8UEdMmTab
+    password: 
     test-connection: true
     protocol: smtps
     default-encoding: UTF-8
