@@ -64,6 +64,20 @@ public class AppConfig {
     private String webHeaderRefreshToken;
     @Value("${web.header.email-verification-token}")
     private String webHeaderEmailVerificationToken;
+    @Value("${web.cors.mapping}")
+    private String webCorsMapping;
+    @Value("${web.cors.allowed-origins}")
+    private String webCorsAllowedOrigins;
+    @Value("${web.cors.allow-credentials}")
+    private boolean webCorsAllowCredentials;
+    @Value("${web.cors.allowed-origin-patterns}")
+    private String webCorsAllowedOriginPatterns;
+    @Value("${web.cors.allowed-methods}")
+    private String[] webCorsAllowedMethods;
+    @Value("${web.cors.allowed-headers}")
+    private String webCorsAllowedHeaders;
+    @Value("${web.cors.exposed-headers}")
+    private String webCorsExposedHeaders;
 
     //计划任务
     @Value("${schedule.clear-email-verification-code-map-period}")

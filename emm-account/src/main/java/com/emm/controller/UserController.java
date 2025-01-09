@@ -63,7 +63,7 @@ public class UserController {
         } else if (user.getUserEmail() == null || user.getUserEmail().isEmpty()) {
             userInfo = user.getUserEmail();
             reponseUser = userService.findUserByEmail(user.getUserEmail());
-        } else if (user.getUserPhone() == null || user.getUserPhone().isEmpty()) {
+        } else if (!(user.getUserPhone() == null || user.getUserPhone().isEmpty())) {
             try {
                 user.setUserPhone(Digest.encryptUserPhone(user.getUserPhone()));
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
@@ -99,15 +99,15 @@ public class UserController {
                 || user.getUserPassword().isEmpty()
                 || user.getUserEmail() == null
                 || user.getUserEmail().isEmpty()
-                || user.getUserArea() == null
-                || user.getUserArea().isEmpty()
+//                || user.getUserArea() == null
+//                || user.getUserArea().isEmpty()
         ) {
             log.error("register info is empty");
             return StandardResponseBody.customInfo(ResponseEnum.ADD_USER_ILLEGAL);
         }
         if (user.getUserName().length() > 30
             || user.getUserEmail().length() > 50
-            || user.getUserArea().length() > 5
+            //|| user.getUserArea().length() > 5
             || user.getUserPassword().length() > 60
         ) {
             log.error("register info is too long");

@@ -71,7 +71,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByLoginName(String loginName, String password) {
         User user = userMapper.findUserByLoginName(loginName, password);
-        log.info(user.getUserUUID());
+        if (user == null || user.getUserUUID() == null) {
+            log.warn("user is null");
+        } else {
+            log.info(user.getUserUUID());
+        }
         return user;
     }
 

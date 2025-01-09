@@ -108,17 +108,6 @@ public class JwtController implements HandlerInterceptor {
                 log.error("不支持更新refresh_token");
                 res = StandardResponseBody.customInfo(ResponseEnum.REFRESH_TOKEN_UPDATE_NOT_ALLOWED);
             }
-            /*if (res == null) {
-                try {
-                    userTokenInfo = JWTTools.parseUserJWT(refreshToken);
-                    response.addHeader(appConfig.getWebHeaderAccessToken(), JWTTools.createAccessJWT(userTokenInfo.getData()));
-                    res = StandardResponseBody.success();
-                    log.info("更新 access_token 成功");
-                } catch (Exception e) {
-                    log.error(e.getMessage());
-                    res = StandardResponseBody.customInfo(ResponseEnum.REFRESH_TOKEN_INVALID);
-                }
-            }*/
         } else {
             try {
                 userTokenInfo = JWTTools.parseUserJWT(accessToken);

@@ -14,6 +14,14 @@ web:
     access-token: Authorization-Access
     refresh-token: Authorization-Refresh
     email-verification-token: Authorization-Email-Verification
+  cors:
+    mapping: /**
+    allowed-origins: "*"
+    allow-credentials: false
+    allowed-origin-patterns: "*"
+    allowed-methods: GET, POST, PUT, DELETE
+    allowed-headers: "*"
+    exposed-headers: "*"
 
 settings:
   analytics: true
@@ -42,7 +50,7 @@ server:
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mariadb://localhost:3366/emm
+    url: jdbc:mariadb://localhost:3306/emm
     driver-class-name: org.mariadb.jdbc.Driver
     username: emm
     password: emm
@@ -55,9 +63,9 @@ spring:
     # noinspection SpellCheckingInspection
     host: smtp.exmail.qq.com
     port: 465
-    username: wgx@icest.top
+    username:
     # noinspection SpellCheckingInspection
-    password: wGMRQ9t8UEdMmTab
+    password:
     test-connection: true
     protocol: smtps
     default-encoding: UTF-8
@@ -67,9 +75,9 @@ spring:
       mail.smtp.starttls.required: true #要求使用TLS加密，如果连接不是通过TLS加密传输，则连接将失败。
   data:
     redis:
-      host: localhost
-      port: 3288
-      password: QB32533
+      host: 100.100.1.1
+      port: 6379
+      password: 123123123
 
 mybatis:
   configuration:  # setting配置
