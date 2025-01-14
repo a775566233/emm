@@ -1,0 +1,54 @@
+[
+  {
+    "fieldName": "userName",
+    "isNullable": false,
+    "minLength": 2,
+    "maxLength": 30,
+    "regexString": "[a-zA-Z0-9]"
+  },
+  {
+    "fieldName": "userId",
+    "isNullable": false,
+    "minLength": 1,
+    "maxLength": 55,
+    "regexString": "[0-9]"
+  },
+  {
+    "fieldName": "userEmail",
+    "isNullable": false,
+    "minLength": 1,
+    "maxLength": 50,
+    "regexString": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+  },
+  {
+    "fieldName": "userArea",
+    "isNullable": false,
+    "minLength": 1,
+    "maxLength": 5
+  },
+  {
+    "fieldName": "userPhone",
+    "isNullable": false,
+    "minLength": 1,
+    "maxLength": 15,
+    "regexString": "[0-9]"
+  },
+  {
+    "fieldName": "userDuties",
+    "isNullable": false,
+    "minLength": 1,
+    "maxLength": 10
+  },
+  {
+    "fieldName": "userUUID",
+    "isNullable": false,
+    "minLength": 1,
+    "maxLength": 36
+  },
+  {
+    "fieldName": "userPassword",
+    "isNullable": false,
+    "minLength": 6,
+    "maxLength": 80
+  }
+]

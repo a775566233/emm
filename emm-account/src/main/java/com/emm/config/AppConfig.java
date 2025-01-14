@@ -47,7 +47,6 @@ public class AppConfig {
     private String userPasswordPrefixSalt;
     @Value("${storage.user-password.suffix-salt}")
     private String userPasswordSuffixSalt;
-
     @Value("${storage.user-phone.encryption}")
     private String userPhoneEncryption;
     @Value("${storage.user-phone.frequency}")
@@ -102,4 +101,13 @@ public class AppConfig {
     private String dataDir;
     @Value("${data.config.permission-config}")
     private String dataConfigPermissionConfig;
+    @Value("${data.config.check-template-config}")
+    private String dataConfigCheckTemplateConfig;
+
+    public String getPermissionConfigPath() {
+        return this.getDataDir() + this.getDataConfigPermissionConfig();
+    }
+    public String getCheckTemplateConfigPath() {
+        return this.getDataDir() + this.getDataConfigCheckTemplateConfig();
+    }
 }

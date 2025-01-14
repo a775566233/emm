@@ -1,11 +1,13 @@
 package com.emm.controller;
 
 import com.emm.config.AppConfig;
+import com.emm.config.DataConfig;
 import com.emm.entity.User;
 import com.emm.entity.information.ResponseEnum;
 import com.emm.entity.information.StandardResponseBody;
 import com.emm.entity.token.UserTokenThreadLocal;
 import com.emm.service.user.UserService;
+import com.emm.util.check.CheckTools;
 import com.emm.util.string.Digest;
 import com.emm.util.token.JWTTools;
 import com.emm.util.token.Operation;
@@ -16,15 +18,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
     private UserService userService;
+    private DataConfig dataConfig;
     @Autowired
-    public void setUserService(UserService userService) {
+    public void setUserService(UserService userService, DataConfig dataConfig) {
         this.userService = userService;
+        this.dataConfig = dataConfig;
     }
 
     private static AppConfig appConfig;
@@ -33,10 +38,17 @@ public class UserController {
         UserController.appConfig = appConfig;
     }
 
-    @PostMapping("/getUsers")
-    public String getUsers() {
-        return "success";
+    /**
+     * 前端请求：http://后端url/user/getUsers?offset=*&limit=*
+     * @param offset 偏移量，即从结果集的第几行开始返回结果
+     * @param limit 每页返回的行数
+     * @return 标准ResponseBody
+     */
+    @GetMapping("/getUsers")
+    public Object getUsers(long offset, long limit) {
+        return StandardResponseBody.success(userService.findUsers(offset, limit));
     }
+
 
     @PostMapping("/login")
     public Object login(HttpServletResponse response, @RequestBody User user) {
@@ -47,7 +59,7 @@ public class UserController {
         if (user == null) {
             log.error("user is null");
             return StandardResponseBody.customInfo(ResponseEnum.REQUEST_NULL);
-        } else if (user.getUserPassword() == null || user.getUserPassword().isEmpty()) {
+        } else if (CheckTools.check(user.getUserPassword(), dataConfig.getCheckTemplateMap().get("userPassword"))) {
             log.error("userPassword is null");
             return StandardResponseBody.customInfo(ResponseEnum.USER_NOT_FOUND);
         }
@@ -57,13 +69,14 @@ public class UserController {
             log.error(e.getMessage());
             return StandardResponseBody.customInfo(ResponseEnum.SERVER_ERROR);
         }
-        if (user.getUserName() != null && !user.getUserName().isEmpty()) {
+        if (CheckTools.check(user.getUserName(), dataConfig.getCheckTemplateMap().get("userName"))) {
             userInfo = user.getUserName();
             reponseUser = userService.findUserByLoginName(user.getUserName(), user.getUserPassword());
-        } else if (user.getUserEmail() == null || user.getUserEmail().isEmpty()) {
+        } else if (CheckTools.check(user.getUserEmail(), dataConfig.getCheckTemplateMap().get("userEmail"))) {
             userInfo = user.getUserEmail();
             reponseUser = userService.findUserByEmail(user.getUserEmail());
-        } else if (!(user.getUserPhone() == null || user.getUserPhone().isEmpty())) {
+        }
+        /*else if (!(user.getUserPhone() == null || user.getUserPhone().isEmpty())) {
             try {
                 user.setUserPhone(Digest.encryptUserPhone(user.getUserPhone()));
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
@@ -72,7 +85,7 @@ public class UserController {
             }
             userInfo = user.getUserPhone();
             reponseUser = userService.findUserByLoginPhone(user.getUserArea(), user.getUserPhone(), user.getUserEmail());
-        }
+        }*/
         if (reponseUser != null) {
             log.info("user {} login success", user.getUserName());
             response.addHeader(appConfig.getWebHeaderAccessToken(), JWTTools.createUserAccessJWT(reponseUser));
@@ -93,24 +106,12 @@ public class UserController {
             return StandardResponseBody.customInfo(ResponseEnum.REQUEST_NULL);
         }
         log.info("user {} register", user.getUserName());
-        if (user.getUserName() == null
-                || user.getUserName().isEmpty()
-                || user.getUserPassword() == null
-                || user.getUserPassword().isEmpty()
-                || user.getUserEmail() == null
-                || user.getUserEmail().isEmpty()
-//                || user.getUserArea() == null
-//                || user.getUserArea().isEmpty()
+        if (
+                !CheckTools.check(user.getUserName(), dataConfig.getCheckTemplateMap().get("userName"))
+                ||!CheckTools.check(user.getUserEmail(), dataConfig.getCheckTemplateMap().get("userEmail"))
+                ||!CheckTools.check(user.getUserPassword(), dataConfig.getCheckTemplateMap().get("userPassword"))
         ) {
-            log.error("register info is empty");
-            return StandardResponseBody.customInfo(ResponseEnum.ADD_USER_ILLEGAL);
-        }
-        if (user.getUserName().length() > 30
-            || user.getUserEmail().length() > 50
-            //|| user.getUserArea().length() > 5
-            || user.getUserPassword().length() > 60
-        ) {
-            log.error("register info is too long");
+            log.error("register info is illegal");
             return StandardResponseBody.customInfo(ResponseEnum.ADD_USER_ILLEGAL);
         }
         try {
@@ -131,8 +132,8 @@ public class UserController {
     @PostMapping("/resetPassword")
     public Object resetPassword(@RequestBody User user) {
         log.info("user {} resetPassword", user.getUserName());
-        if (user.getUserPassword() == null || user.getUserPassword().isEmpty()) {
-            log.error("resetPassword is null");
+        if (CheckTools.check(user.getUserPassword(), dataConfig.getCheckTemplateMap().get("userPassword"))) {
+            log.error("resetPassword is illegal");
             return StandardResponseBody.customInfo(ResponseEnum.USER_INFO_INVALID);
         }
         if (!UserTokenThreadLocal.get().getOperation().equals(Operation.WRITE)) {

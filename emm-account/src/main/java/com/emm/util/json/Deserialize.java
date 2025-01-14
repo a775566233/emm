@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Deserialize {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -13,4 +14,8 @@ public class Deserialize {
         return objectMapper.readValue(json, clazz);
     }
 
+    public static <T> List<T> toList(String json, TypeReference<List<T>> typeRef) throws JsonParseException, JsonMappingException, IOException {
+        //TypeReference<List<T>> typeRef = new TypeReference<List<T>>() {};
+        return objectMapper.readValue(json, typeRef);
+    }
 }

@@ -1,13 +1,19 @@
 import com.emm.entity.permission.PermissionModel;
+import com.emm.entity.template.CheckTemplate;
+import com.emm.util.check.CheckTools;
 import com.emm.util.file.FileTools;
 import com.emm.util.json.Deserialize;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import static com.emm.util.generate.RandomTools.randomInt;
 
@@ -34,37 +40,31 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        /*byte[] uuidBytes = getUUIDBytes();
-        System.out.println(Arrays.toString(uuidBytes));
-        System.out.println(getUUID(uuidBytes));
-        System.out.println(System.currentTimeMillis());
-        String content = "abcde";
-        try {
-            String result = encrypt(content, "SHA-256", "utf-8");
-            System.out.println(result);
-            System.out.println(encrypt(result, "SHA-256", "utf-8"));
-            result = "sihfdshfoifdhs" + "abcde" + "wfnissn";
-            System.out.println(result);
-            result = encrypt(result, "SHA-256", "utf-8");
-            System.out.println(result);
-            System.out.println(encrypt(result, "SHA-256", "utf-8"));
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }*/
-        //System.out.println(randomIntString(0, 9, 6));
-        String json = "";
-        try {
-            json = FileTools.getFileContent("C:\\Users\\A7755\\Nextcloud\\Project\\emm-community\\emm\\emm-account\\data\\config\\permission.json");
-            System.out.println(json);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //System.out.println(CheckTools.check("1627453256@qq.com", false, 1, 30, Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")));
         PermissionModel permissionModel;
+        HashMap<String, CheckTemplate> checkTemplateMap;
+        String jsonString;
+//        try {
+//            jsonString = FileTools.getFileContent("C:\\Users\\A7755\\IdeaProjects\\emm\\emm-account\\data\\config\\permission.json");
+//            System.out.println(jsonString);
+//            permissionModel = Deserialize.toObject(jsonString, PermissionModel.class);
+//            System.out.println(permissionModel);
+//        } catch (IOException e) {
+//            System.out.println("权限配置设置出错，读取相关json文件异常：" + e);
+//            throw new RuntimeException();
+//        }
         try {
-            permissionModel = Deserialize.toObject(json, PermissionModel.class);
-            System.out.println(permissionModel);
+            jsonString = FileTools.getFileContent("C:\\Users\\A7755\\IdeaProjects\\emm\\emm-account\\data\\config\\check-template.json");
+            List<CheckTemplate> checkTemplates = Deserialize.toList(jsonString, new TypeReference<List<CheckTemplate>>() {});
+            System.out.println(checkTemplates);
+            checkTemplateMap = new HashMap<>();
+            for (CheckTemplate checkTemplate : checkTemplates) {
+                checkTemplateMap.put(checkTemplate.getFieldName(), checkTemplate);
+            }
+            System.out.println(checkTemplateMap);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("输入检查模板设置出错，读取相关json文件异常：{}" + e);
+            throw new RuntimeException();
         }
     }
 

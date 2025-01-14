@@ -4,10 +4,7 @@ version: 1.0.0
 author: wgx
 encoding-type: utf-8
 
-features:
-  - 登录
-  - 注册
-  - 仪表盘
+features: 登录, 注册, 仪表盘
 
 web:
   header:
@@ -50,10 +47,10 @@ server:
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mariadb://localhost:3306/emm
+    url: jdbc:mariadb://192.168.93.2:3306/emm
     driver-class-name: org.mariadb.jdbc.Driver
     username: emm
-    password: emm
+    password: QB252252
     hikari:
       minimum-idle: 5
       maximum-pool-size: 15
@@ -75,7 +72,7 @@ spring:
       mail.smtp.starttls.required: true #要求使用TLS加密，如果连接不是通过TLS加密传输，则连接将失败。
   data:
     redis:
-      host: 100.100.1.1
+      host: 192.168.93.2
       port: 6379
       password: 123123123
 
@@ -109,7 +106,8 @@ schedule:
   clear-email-verification-code-map-period: 600
 
 data:
-  dir:  C:\Users\A7755\Nextcloud\Project\emm-community\emm\emm-account\data
+  dir:  C:\Users\A7755\IdeaProjects\emm\emm-account\data
   config:
     permission-config:  \config\permission.json
+    check-template-config: \config\check-template.json
 

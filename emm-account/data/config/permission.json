@@ -1,8 +1,8 @@
 {
   "permissionsConfig" : {
-    "VISITOR" : [ 0, 0, 0, 0, 0, 0, 0, 0 ],
-    "ADMIN" : [ 1, 1, 1, 1, 1, 1, 1, 1 ],
-    "USER" : [ 0, 1, 0, 1, 0, 1, 0, 1 ]
+    "VISITOR" : [0, 0, 0, 0, 0, 0, 0, 0],
+    "ADMIN" : [1, 1, 1, 1, 1, 1, 1, 1],
+    "USER" : [0, 1, 0, 1, 0, 1, 0, 1]
   },
   "permissions" : [ "ADD", "ADD_OWN", "DELETE", "DELETE_OWN", "READ", "READ_OWN", "UPDATE", "UPDATE_OWN" ]
 }
