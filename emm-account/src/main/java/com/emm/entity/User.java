@@ -13,6 +13,7 @@ public class User {
     private String userPhone;
     private String userDuties;
     private int status;
+
     private String userUUID;
     private long registerStamp;
 
